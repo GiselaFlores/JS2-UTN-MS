@@ -703,8 +703,124 @@ console.log(randomColor(255));
 btn.addEventListener("click", ()=>{
    const color = `rgb(${randomColor(255)}, ${randomColor(255)}, ${randomColor(255)})`;  
    document.body.style.backgroundColor = color;  // rgb(123, 54, 98);
-})
+});
 
+
+// eventos sobre campos formularios
+
+//input para obtener el contenido se usa el target.value
+
+//keydown
+
+//<input type="text"> id="inputText" placeholder="Escribí algo.."> estaria en el HTML
+
+const input = document.getElementById("inputText");
+
+input.addEventListener("keydown", (event)=>{
+   console.log(`Tecla presionada: ${event.key}` )
+});
+
+// evento submit
+
+/*<form id="myForm">
+  <input type="text" name="username" placeholder="Nombre de usuario">
+  <button type="submit">Enviar</button>
+  </form>
+*/ 
+
+const form = document.getElementById("myForm");
+
+form.addEventListener("submit", (e)=>{
+   e.preventDefault(); // evita el envio del formulario, y me permite personalizar
+   //https://sweetalert2.github.io/
+   console.log("formulario enviado");
+} );
+
+// resize )ventana de windows
+
+window.addEventListener('resize', () => {
+   console.log(`Ancho de la ventana: ${window.innerWidth}, Alto: ${window.innerHeight}`);
+ });
+
+ // evento de carga
+
+ document.addEventListener('DOMContentLoaded', () => {
+   console.log('El contenido del DOM ha sido completamente cargado');
+ });
+
+ // evento personalizado
+
+ const miEvento = new miEvento("miEvento", {
+   detail: {message: "hola evento personalizado"}   
+});
+
+nodoCualquiera.addEventListener("miEvento", (e)=>{
+   console.log(e.detail.message);
+});
+
+nodoCualquiera.dispachEvent(miEvento);
+
+// validación de form
+
+document.addEventListener("DOMContentLoaded", ()=>{
+   const form = document.getElementById("registrationForm");
+
+   form.addEventListener("submit", (e)=>{
+      e.preventDefault();
+
+      const isValid = validarForm(form);
+
+      if(isValid){
+         alert("Formulario enviado con éxito");
+         form.reset(); 
+      }
+   })
+});
+
+function validarForm(form){
+   let isValid = true;
+
+   //validar el campo de nombre de usaurio no vacio
+
+   const usernameInput = form.querySelector("#username");
+   if(usernameInput.value.trim() === ""){
+      showValidacionError(usernameInput);
+      isValid = false;
+   } else {
+      clearValidacionError(usernameInput);
+   }
+
+   // validación de un correo electrónico
+
+   const emailInput = form.querySelector('#email');
+
+   if (!validateEmail(emailInput.value)) {
+     showValidationError(emailInput);
+     isValid = false;
+   } else {
+     clearValidationError(emailInput);
+   }
+
+   return isValid;
+}
+
+//funciones aux
+
+function showValidacionError(input){
+   input.classList.add("is-invalid");
+}
+
+function clearValidacionError(input){
+   input.classList.remove("is-invalid");
+   input.classList.add("is-valid");
+}
+
+function validateEmail(email) {
+   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+   return emailPattern.test(email);
+ }
+
+ 
 
 
 
